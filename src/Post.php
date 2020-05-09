@@ -176,12 +176,12 @@ class Post extends Model
     public function getReadTimeAttribute(): string
     {
         // Only count words in our estimation
-        $words = str_word_count(strip_tags($this->body));
+        $words = substr_count(strip_tags($this->body), ' ');
 
         // Divide by the average number of words per minute
         $minutes = ceil($words / 250);
 
-        return sprintf('%d %s %s', $minutes, Str::plural(__('canvas::app.min'), $minutes), __('canvas::app.read'));
+        return sprintf('%s %s', trans_choice('canvas::app.min', $minutes, ['value' => $minutes]), __('canvas::app.read'));
     }
 
     /**
